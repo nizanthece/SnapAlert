@@ -39,10 +39,11 @@ public class CreateSnap {
         Robot robot = new Robot();
         Rectangle rectangle = new Rectangle();
         Rectangle rectangle2 = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-        rectangle.setBounds(0, 140, rectangle2.width, rectangle2.height-240);
+        rectangle.setBounds(0, 145, rectangle2.width, rectangle2.height-240);
         BufferedImage bufferedImage = robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
         while(1==1)
         {
+            now = Calendar.getInstance();
             BufferedImage previousbufferedImage = bufferedImage;
             bufferedImage = s2i.robo(rectangle);
             if ( bufferedImage.equals(previousbufferedImage)) {
@@ -52,13 +53,13 @@ public class CreateSnap {
                 System.out.println("Both snapshots are different");
             }
             Float percent = compareImage(bufferedImage,previousbufferedImage);
-            if(percent != 100 ) {
-                String fileName = "G:\\Alert\\"+formatter.format(now.getTime())+".jpg";
+            if(percent < 99 ) {
+                String fileName = "D:\\Alert\\"+formatter.format(now.getTime())+".jpg";
                 ImageIO.write(bufferedImage, "JPG", new File(fileName));
                 sendEmail.sendEmail(fileName,"Alert","hello");
             }
             System.out.println("Comparison percentage is " + percent);
-            Thread.sleep(10000);
+            Thread.sleep(6000);
         }
     }
     static float compareImage(BufferedImage biA, BufferedImage biB) {
